@@ -31,9 +31,17 @@ class Firefly(mesa.Agent):  # noqa
             self.current_value_cycle = 0 # Reseting the clock
         else:
             self.is_flashing = False # Else, doesn't flash
-        
+
+
+        neighbors = self.model.space.get_neighbors(self.pos, radius=100, include_center=True)
+        for agent in neighbors:
+            if agent.is_flashing: 
+                self.current_value_cycle = 0
+
         # self.random_move() # Random move
         self.move()
+
+
 
     def move(self):
         #neighbors = self.model.space.get_neighbors(self.pos, 2, False)
