@@ -1,18 +1,23 @@
 import mesa
 from fireflies_flashing.random_walk import RandomWalker
 
+import random
 
 class Firefly(RandomWalker):  # noqa
     """
     An firefly that walks randomly, flashing at the end of its cycle.
     """
 
-    def __init__(self, unique_id, pos, model, moore):
+    def __init__(self, unique_id, pos, model, moore, cycle_length):
         """
         Customize the agent
         """
         self.unique_id = unique_id
-        self.is_flashing = True # TODO : random ? (change by implementing clock)
+        self.cycle_length = cycle_length
+        self.current_value_cycle = random.randrange(self.cycle_length)
+        self.is_flashing = False
+        if self.current_value_cycle == self.cycle_length:
+            self.is_flashing = True
         super().__init__(unique_id, pos, model, moore)
 
     def step(self):
@@ -20,8 +25,14 @@ class Firefly(RandomWalker):  # noqa
         Modify this method to change what an individual agent will do during each step.
         Can include logic based on neighbors states.
         """
-        self.random_move()
-        pass
+        self.current_value_cycle += 1 # Incrementing the clock
+        if self.current_value_cycle == self.cycle_length: # If the clock reaches the maximum
+            self.is_flashing = True # The firefly flashes
+            self.current_value_cycle = 0 # Reseting the clock
+        else:
+            self.is_flashing = False # Else, doesn't flash
+        
+        self.random_move() # Random move
 
 
 class Fireflies_FlashingModel(mesa.Model):
@@ -45,7 +56,7 @@ class Fireflies_FlashingModel(mesa.Model):
         for i in range(self.num_agents):
             x = self.random.randrange(self.grid.width)
             y = self.random.randrange(self.grid.height)
-            agent = Firefly(unique_id=i, pos=(x, y), model=self, moore=True)
+            agent = Firefly(unique_id=i, pos=(x, y), model=self, moore=True, cycle_length=cycle_length)
             self.grid.place_agent(agent, (x, y))
             self.schedule.add(agent)
 
