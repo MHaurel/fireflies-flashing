@@ -59,6 +59,8 @@ model_kwargs = {
     "num_agents": mesa.visualization.Slider("Fireflies number", 100, 1, 200),
     "cycle_length": mesa.visualization.Slider("Cycle length", 10, 3, 100),
     "vision": mesa.visualization.Slider("Vision", 25, 5, 180),
+    "flashes_to_reset": mesa.visualization.Slider("Flashes to Reset", 1, 1, 3),
+    # "flash_length": mesa.visualization.Slider("Flash Length", 1, 1, 10),
     "width": 20, 
     "height": 20}
 
