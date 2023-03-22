@@ -1,24 +1,26 @@
 import mesa
+from fireflies_flashing.random_walk import RandomWalker
 
 
-class Firefly(mesa.Agent):  # noqa
+class Firefly(RandomWalker):  # noqa
     """
-    An agent
+    An firefly that walks randomly, flashing at the end of its cycle.
     """
 
-    def __init__(self, unique_id, model):
+    def __init__(self, unique_id, pos, model, moore):
         """
         Customize the agent
         """
         self.unique_id = unique_id
-        self.is_flashing = True # TODO : random ? (change)
-        super().__init__(unique_id, model)
+        self.is_flashing = True # TODO : random ? (change by implementing clock)
+        super().__init__(unique_id, pos, model, moore)
 
     def step(self):
         """
         Modify this method to change what an individual agent will do during each step.
         Can include logic based on neighbors states.
         """
+        self.random_move()
         pass
 
 
@@ -41,12 +43,11 @@ class Fireflies_FlashingModel(mesa.Model):
         self.grid = mesa.space.MultiGrid(width=width, height=height, torus=True)
 
         for i in range(self.num_agents):
-            agent = Firefly(i, self)
-            self.schedule.add(agent)
-
             x = self.random.randrange(self.grid.width)
             y = self.random.randrange(self.grid.height)
+            agent = Firefly(unique_id=i, pos=(x, y), model=self, moore=True)
             self.grid.place_agent(agent, (x, y))
+            self.schedule.add(agent)
 
         # example data collector
         self.datacollector = mesa.datacollection.DataCollector()

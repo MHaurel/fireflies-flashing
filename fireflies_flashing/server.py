@@ -68,8 +68,8 @@ model_kwargs = {
     "num_agents": mesa.visualization.Slider("Fireflies number", 100, 1, 200),
     # "num_agents": 10, 
     "cycle_length": mesa.visualization.Slider("Cycle length", 20, 5, 100),
-    "width": 10, 
-    "height": 10}
+    "width": 20, 
+    "height": 20}
 
 server = mesa.visualization.ModularServer(
     Fireflies_FlashingModel,
