@@ -19,13 +19,13 @@ def firefly_flashing_portrayal(agent):
         portrayal['Shape'] = "circle"
         portrayal["Filled"] = "true",
         portrayal["Layer"] = 0,
-        portrayal["r"] = 0.5,
+        portrayal["r"] = 2,
         if agent.is_flashing:
             portrayal = {
                 "Shape": "circle",
                 "Filled": "true",
                 "Layer": 0,
-                "r": 0.5,
+                "r": 2,
                 "Color": "Yellow",
             }
         else:
@@ -35,7 +35,7 @@ def firefly_flashing_portrayal(agent):
                 "Shape": "circle",
                 "Filled": "true",
                 "Layer": 0,
-                "r": 0.5,
+                "r": 2,
                 "Color": "Grey",
             }
 

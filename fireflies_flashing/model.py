@@ -18,7 +18,7 @@ class Firefly(mesa.Agent):  # noqa
         self.is_flashing = False
         if self.current_value_cycle == self.cycle_length:
             self.is_flashing = True
-        super().__init__(unique_id, pos, model, moore)
+        super().__init__(unique_id, model)
 
     def step(self):
         """
@@ -39,8 +39,9 @@ class Firefly(mesa.Agent):  # noqa
         #neighbors = self.model.space.get_neighbors(self.pos, 2, False)
         self.velocity = 2
         self.speed = 2
-        new_pos = self.pos + self.velocity * self.speed
-        self.model.space.move_agent(self, new_pos)
+        new_pos_x = self.pos[0] + self.velocity * self.speed
+        new_pos_y = self.pos[1] + self.velocity * self.speed
+        self.model.space.move_agent(self, (new_pos_x, new_pos_y))
 
 
 class Fireflies_FlashingModel(mesa.Model):
@@ -65,8 +66,10 @@ class Fireflies_FlashingModel(mesa.Model):
         for i in range(self.num_agents):
             # x = self.random.randrange(self.grid.width) 
             # y = self.random.randrange(self.grid.height)
-            x = self.random.randrange(self.space.width)
-            y = self.random.randrange(self.space.height)
+            # x = self.random.randrange(0, self.space.width)
+            # y = self.random.randrange(0, self.space.height)
+            x = round(self.random.uniform(0, self.space.width), 1)
+            y = round(self.random.uniform(0, self.space.height), 1)
             agent = Firefly(unique_id=i, pos=(x, y), model=self, moore=True, cycle_length=cycle_length)
             # self.grid.place_agent(agent, (x, y))
             self.space.place_agent(agent, (x, y))
