@@ -41,8 +41,6 @@ class Firefly(mesa.Agent):  # noqa
         # self.random_move() # Random move
         self.move()
 
-
-
     def move(self):
         #neighbors = self.model.space.get_neighbors(self.pos, 2, False)
         self.velocity = 2
