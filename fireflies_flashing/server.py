@@ -12,8 +12,6 @@ def firefly_flashing_portrayal(agent):
     
     portrayal = {} # remove it ?
 
-    # print(f"type of the agent: {type(agent)}, {type(agent) is Firefly}")
-
     if type(agent) is Firefly:
         portrayal['Shape'] = "circle"
         portrayal["Filled"] = "true",
@@ -37,26 +35,10 @@ def firefly_flashing_portrayal(agent):
                 "r": 0.5,
                 "Color": "Grey",
             }
-    
-        
 
         return portrayal
     else:
         raise TypeError
-
-def circle_portrayal_example(agent):
-    if agent is None:
-        return
-
-    portrayal = {
-        "Shape": "circle",
-        "Filled": "true",
-        "Layer": 0,
-        "r": 0.5,
-        "Color": "Pink",
-    }
-    return portrayal
-
 
 canvas_element = mesa.visualization.CanvasGrid(
     firefly_flashing_portrayal, 20, 20, 500, 500
