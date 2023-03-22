@@ -3,7 +3,7 @@ from fireflies_flashing.random_walk import RandomWalker
 
 import random
 
-class Firefly(RandomWalker):  # noqa
+class Firefly(mesa.Agent):  # noqa
     """
     An firefly that walks randomly, flashing at the end of its cycle.
     """
@@ -32,7 +32,15 @@ class Firefly(RandomWalker):  # noqa
         else:
             self.is_flashing = False # Else, doesn't flash
         
-        self.random_move() # Random move
+        # self.random_move() # Random move
+        self.move()
+
+    def move(self):
+        #neighbors = self.model.space.get_neighbors(self.pos, 2, False)
+        self.velocity = 2
+        self.speed = 2
+        new_pos = self.pos + self.velocity * self.speed
+        self.model.space.move_agent(self, new_pos)
 
 
 class Fireflies_FlashingModel(mesa.Model):
@@ -55,8 +63,10 @@ class Fireflies_FlashingModel(mesa.Model):
         self.space = mesa.space.ContinuousSpace(width, height, True)
 
         for i in range(self.num_agents):
-            x = self.random.randrange(self.grid.width)
-            y = self.random.randrange(self.grid.height)
+            # x = self.random.randrange(self.grid.width) 
+            # y = self.random.randrange(self.grid.height)
+            x = self.random.randrange(self.space.width)
+            y = self.random.randrange(self.space.height)
             agent = Firefly(unique_id=i, pos=(x, y), model=self, moore=True, cycle_length=cycle_length)
             # self.grid.place_agent(agent, (x, y))
             self.space.place_agent(agent, (x, y))

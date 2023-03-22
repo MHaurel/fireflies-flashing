@@ -4,6 +4,9 @@ Configure visualization elements and instantiate a server
 
 from .model import Fireflies_FlashingModel, Firefly  # noqa
 
+from .SimpleContinuousModule import SimpleCanvas
+
+
 import mesa
 
 def firefly_flashing_portrayal(agent):
@@ -40,9 +43,14 @@ def firefly_flashing_portrayal(agent):
     else:
         raise TypeError
 
+"""
 canvas_element = mesa.visualization.CanvasGrid(
     firefly_flashing_portrayal, 20, 20, 500, 500
 )
+"""
+canvas_element = SimpleCanvas(firefly_flashing_portrayal, 500, 500)
+
+
 chart_element = mesa.visualization.ChartModule([{"Label": "Fireflies-Flashing", "Color": "Yellow"}])
 
 model_kwargs = {
