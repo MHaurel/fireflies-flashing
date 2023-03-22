@@ -9,12 +9,15 @@ class Firefly(mesa.Agent):  # noqa
     An firefly that walks randomly, flashing at the end of its cycle.
     """
 
-    def __init__(self, unique_id, pos, model, moore, cycle_length):
+    def __init__(self, unique_id, pos, model, moore, cycle_length, vision):
         """
         Customize the agent
         """
         self.unique_id = unique_id
+        self.pos = pos
+        self.moore = moore
         self.cycle_length = cycle_length
+        self.vision = vision
         self.current_value_cycle = random.randrange(self.cycle_length)
         self.is_flashing = False
         if self.current_value_cycle == self.cycle_length:
@@ -33,8 +36,7 @@ class Firefly(mesa.Agent):  # noqa
         else:
             self.is_flashing = False # Else, doesn't flash
 
-
-        neighbors = self.model.space.get_neighbors(self.pos, radius=100, include_center=True)
+        neighbors = self.model.space.get_neighbors(self.pos, radius=self.vision, include_center=True)
         for agent in neighbors:
             if agent.is_flashing: 
                 self.current_value_cycle = 0
@@ -62,24 +64,18 @@ class Fireflies_FlashingModel(mesa.Model):
     The scheduler is a special model component which controls the order in which agents are activated.
     """
 
-    def __init__(self, num_agents, cycle_length, width, height):
+    def __init__(self, num_agents, cycle_length, vision, width, height):
         super().__init__()
         self.num_agents = num_agents
         self.cycle_length = cycle_length
-        # self.schedule = mesa.time.RandomActivation(self)
+        self.vision = vision
         self.schedule = RandomActivationByTypeFiltered(self)
-        # self.grid = mesa.space.MultiGrid(width=width, height=height, torus=True)
         self.space = mesa.space.ContinuousSpace(width, height, True)
 
         for i in range(self.num_agents):
-            # x = self.random.randrange(self.grid.width) 
-            # y = self.random.randrange(self.grid.height)
-            # x = self.random.randrange(0, self.space.width)
-            # y = self.random.randrange(0, self.space.height)
             x = round(self.random.uniform(0, self.space.width), 1)
             y = round(self.random.uniform(0, self.space.height), 1)
-            agent = Firefly(unique_id=i, pos=(x, y), model=self, moore=True, cycle_length=cycle_length)
-            # self.grid.place_agent(agent, (x, y))
+            agent = Firefly(unique_id=i, pos=(x, y), model=self, moore=True, cycle_length=cycle_length, vision=self.vision)
             self.space.place_agent(agent, (x, y))
             self.schedule.add(agent)
 
@@ -90,7 +86,6 @@ class Fireflies_FlashingModel(mesa.Model):
             ) 
         })
         
-
         self.running = True
         self.datacollector.collect(self)
 
