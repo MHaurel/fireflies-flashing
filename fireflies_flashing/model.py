@@ -51,13 +51,15 @@ class Fireflies_FlashingModel(mesa.Model):
         self.num_agents = num_agents
         self.cycle_length = cycle_length
         self.schedule = mesa.time.RandomActivation(self)
-        self.grid = mesa.space.MultiGrid(width=width, height=height, torus=True)
+        # self.grid = mesa.space.MultiGrid(width=width, height=height, torus=True)
+        self.space = mesa.space.ContinuousSpace(width, height, True)
 
         for i in range(self.num_agents):
             x = self.random.randrange(self.grid.width)
             y = self.random.randrange(self.grid.height)
             agent = Firefly(unique_id=i, pos=(x, y), model=self, moore=True, cycle_length=cycle_length)
-            self.grid.place_agent(agent, (x, y))
+            # self.grid.place_agent(agent, (x, y))
+            self.space.place_agent(agent, (x, y))
             self.schedule.add(agent)
 
         # example data collector
