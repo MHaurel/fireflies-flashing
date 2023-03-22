@@ -11,6 +11,7 @@ class Firefly(mesa.Agent):  # noqa
         Customize the agent
         """
         self.unique_id = unique_id
+        self.is_flashing = True # TODO : random ? (change)
         super().__init__(unique_id, model)
 
     def step(self):
@@ -32,9 +33,10 @@ class Fireflies_FlashingModel(mesa.Model):
     The scheduler is a special model component which controls the order in which agents are activated.
     """
 
-    def __init__(self, num_agents, width, height):
+    def __init__(self, num_agents, cycle_length, width, height):
         super().__init__()
         self.num_agents = num_agents
+        self.cycle_length = cycle_length
         self.schedule = mesa.time.RandomActivation(self)
         self.grid = mesa.space.MultiGrid(width=width, height=height, torus=True)
 

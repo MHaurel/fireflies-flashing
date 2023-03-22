@@ -6,6 +6,43 @@ from .model import Fireflies_FlashingModel, Firefly  # noqa
 
 import mesa
 
+def firefly_flashing_portrayal(agent):
+    if agent is None:
+        return
+    
+    portrayal = {} # remove it ?
+
+    # print(f"type of the agent: {type(agent)}, {type(agent) is Firefly}")
+
+    if type(agent) is Firefly:
+        portrayal['Shape'] = "circle"
+        portrayal["Filled"] = "true",
+        portrayal["Layer"] = 0,
+        portrayal["r"] = 0.5,
+        if agent.is_flashing:
+            portrayal = {
+                "Shape": "circle",
+                "Filled": "true",
+                "Layer": 0,
+                "r": 0.5,
+                "Color": "Yellow",
+            }
+        else:
+            # portrayal["Color"] = "Grey"
+
+            portrayal = {
+                "Shape": "circle",
+                "Filled": "true",
+                "Layer": 0,
+                "r": 0.5,
+                "Color": "Grey",
+            }
+    
+        
+
+        return portrayal
+    else:
+        raise TypeError
 
 def circle_portrayal_example(agent):
     if agent is None:
@@ -22,11 +59,17 @@ def circle_portrayal_example(agent):
 
 
 canvas_element = mesa.visualization.CanvasGrid(
-    circle_portrayal_example, 20, 20, 500, 500
+    firefly_flashing_portrayal, 20, 20, 500, 500
 )
-chart_element = mesa.visualization.ChartModule([{"Label": "Fireflies-Flashing", "Color": "Pink"}])
+chart_element = mesa.visualization.ChartModule([{"Label": "Fireflies-Flashing", "Color": "Yellow"}])
 
-model_kwargs = {"num_agents": 10, "width": 10, "height": 10}
+model_kwargs = {
+    "title": mesa.visualization.StaticText("Parameters:"),
+    "num_agents": mesa.visualization.Slider("Fireflies number", 100, 1, 200),
+    # "num_agents": 10, 
+    "cycle_length": mesa.visualization.Slider("Cycle length", 20, 5, 100),
+    "width": 10, 
+    "height": 10}
 
 server = mesa.visualization.ModularServer(
     Fireflies_FlashingModel,
