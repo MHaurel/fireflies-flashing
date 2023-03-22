@@ -51,7 +51,8 @@ canvas_element = mesa.visualization.CanvasGrid(
 canvas_element = SimpleCanvas(firefly_flashing_portrayal, 500, 500)
 
 
-chart_element = mesa.visualization.ChartModule([{"Label": "Fireflies-Flashing", "Color": "Yellow"}])
+chart_element = mesa.visualization.ChartModule([{"Label": "Number of Fireflies Flashing", "Color": "Yellow"}])
+
 
 model_kwargs = {
     "title": mesa.visualization.StaticText("Parameters:"),

@@ -82,7 +82,12 @@ class Fireflies_FlashingModel(mesa.Model):
             self.schedule.add(agent)
 
         # example data collector
-        self.datacollector = mesa.datacollection.DataCollector()
+        self.datacollector = mesa.datacollection.DataCollector({
+            'fireflies' : lambda m: m.schedule.get_type_count(
+                Firefly, lambda x: x.is_flashing
+            ) 
+            })
+        
 
         self.running = True
         self.datacollector.collect(self)
@@ -93,3 +98,8 @@ class Fireflies_FlashingModel(mesa.Model):
         """
         self.datacollector.collect(self)
         self.schedule.step()
+
+
+
+
+    
