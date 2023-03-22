@@ -1,5 +1,6 @@
 import mesa
 from fireflies_flashing.random_walk import RandomWalker
+from fireflies_flashing.scheduler import RandomActivationByTypeFiltered
 
 import random
 
@@ -65,7 +66,8 @@ class Fireflies_FlashingModel(mesa.Model):
         super().__init__()
         self.num_agents = num_agents
         self.cycle_length = cycle_length
-        self.schedule = mesa.time.RandomActivation(self)
+        # self.schedule = mesa.time.RandomActivation(self)
+        self.schedule = RandomActivationByTypeFiltered(self)
         # self.grid = mesa.space.MultiGrid(width=width, height=height, torus=True)
         self.space = mesa.space.ContinuousSpace(width, height, True)
 
@@ -82,11 +84,11 @@ class Fireflies_FlashingModel(mesa.Model):
             self.schedule.add(agent)
 
         # example data collector
-        self.datacollector = mesa.datacollection.DataCollector({
-            'fireflies' : lambda m: m.schedule.get_type_count(
+        self.datacollector = mesa.DataCollector({
+            'Fireflies-Flashing' : lambda m: m.schedule.get_type_count(
                 Firefly, lambda x: x.is_flashing
             ) 
-            })
+        })
         
 
         self.running = True
