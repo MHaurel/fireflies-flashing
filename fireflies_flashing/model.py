@@ -52,8 +52,8 @@ class Firefly(mesa.Agent):  # noqa
 
     def move(self):
         #neighbors = self.model.space.get_neighbors(self.pos, 2, False)
-        self.velocity = 2
-        self.speed = 2
+        self.velocity = 0.5
+        self.speed = 0.5
         new_pos_x = self.pos[0] + self.velocity * self.speed
         new_pos_y = self.pos[1] + self.velocity * self.speed
         self.model.space.move_agent(self, (new_pos_x, new_pos_y))

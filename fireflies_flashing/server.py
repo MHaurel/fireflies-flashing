@@ -61,6 +61,7 @@ model_kwargs = {
     "vision": mesa.visualization.Slider("Vision", 25, 5, 180),
     "flashes_to_reset": mesa.visualization.Slider("Flashes to Reset", 1, 1, 3),
     # "flash_length": mesa.visualization.Slider("Flash Length", 1, 1, 10),
+    # "strategy": mesa.visualization.Checkbox("Stratégie"),
     "width": 20, 
     "height": 20}
 
