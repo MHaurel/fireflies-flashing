@@ -25,19 +25,21 @@ def firefly_flashing_portrayal(agent):
                 "Shape": "circle",
                 "Filled": "true",
                 "Layer": 0,
-                "r": 2,
+                "r": 4,
                 "Color": "Yellow",
             }
         else:
             # portrayal["Color"] = "Grey"
-
-            portrayal = {
-                "Shape": "circle",
-                "Filled": "true",
-                "Layer": 0,
-                "r": 2,
-                "Color": "Grey",
-            }
+            if agent.model.show_dark:
+                portrayal = {
+                    "Shape": "circle",
+                    "Filled": "true",
+                    "Layer": 0,
+                    "r": 2,
+                    "Color": "Grey",
+                }
+            else:
+                portrayal = {}
 
         return portrayal
     else:
@@ -59,10 +61,11 @@ model_kwargs = {
     "num_agents": mesa.visualization.Slider("Fireflies number", 100, 1, 200),
     "cycle_length": mesa.visualization.Slider("Cycle length", 10, 3, 100),
     "vision": mesa.visualization.Slider("Vision", 25, 5, 180),
-    "flashes_to_reset": mesa.visualization.Slider("Flashes to Reset", 1, 1, 3),
-    # "flash_length": mesa.visualization.Slider("Flash Length", 1, 1, 10),
-    # "strategy": mesa.visualization.Checkbox("Stratégie"),
-    "width": 20, 
+    "flashes_to_reset": mesa.visualization.Slider("Flashes to reset", 1, 1, 3),
+    "info_strategy": mesa.visualization.StaticText("/!\ Not working (Delay by default)"),
+    "delay_strategy": mesa.visualization.Checkbox("Delay Strategy", True),
+    "show_dark": mesa.visualization.Checkbox("Show dark fireflies", True),
+    "width": 30, 
     "height": 20}
 
 server = mesa.visualization.ModularServer(

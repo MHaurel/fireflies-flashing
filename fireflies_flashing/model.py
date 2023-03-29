@@ -14,12 +14,12 @@ class Firefly(mesa.Agent):  # noqa
         Customize the agent
         """
         self.unique_id = unique_id
+        self.model = model
         self.pos = pos
         self.moore = moore
         self.cycle_length = cycle_length
         self.vision = vision
         self.flashes_to_reset = flashes_to_reset
-        self.flash_length = 2 # TODO : Use a slider
         
         self.current_value_cycle = random.randrange(self.cycle_length)
         self.is_flashing = False
@@ -52,10 +52,15 @@ class Firefly(mesa.Agent):  # noqa
 
     def move(self):
         #neighbors = self.model.space.get_neighbors(self.pos, 2, False)
-        self.velocity = 0.5
-        self.speed = 0.5
-        new_pos_x = self.pos[0] + self.velocity * self.speed
-        new_pos_y = self.pos[1] + self.velocity * self.speed
+        x, y = self.pos[0], self.pos[1]
+        possible_moves_x = [x-0.1, x+0.1]
+        possible_moves_y = [y-0.1, y+0.1]
+        # self.velocity = 0.5
+        # self.speed = 0.5
+        # new_pos_x = self.pos[0] + self.velocity * self.speed
+        # new_pos_y = self.pos[1] + self.velocity * self.speed
+        new_pos_x = random.choice(possible_moves_x)
+        new_pos_y = random.choice(possible_moves_y)
         self.model.space.move_agent(self, (new_pos_x, new_pos_y))
 
 
@@ -70,12 +75,14 @@ class Fireflies_FlashingModel(mesa.Model):
     The scheduler is a special model component which controls the order in which agents are activated.
     """
 
-    def __init__(self, num_agents, cycle_length, vision, flashes_to_reset, width, height):
+    def __init__(self, num_agents, cycle_length, vision, flashes_to_reset, delay_strategy, show_dark, width, height):
         super().__init__()
         self.num_agents = num_agents
         self.cycle_length = cycle_length
         self.vision = vision
         self.flashes_to_reset = flashes_to_reset
+        self.delay_strategy = delay_strategy
+        self.show_dark = show_dark
 
         self.schedule = RandomActivationByTypeFiltered(self)
         self.space = mesa.space.ContinuousSpace(width, height, True)
