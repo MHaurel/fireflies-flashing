@@ -1,6 +1,8 @@
 import mesa
 from fireflies_flashing.random_walk import RandomWalker
 from fireflies_flashing.scheduler import RandomActivationByTypeFiltered
+import pandas as pd
+import os
 
 import random
 
@@ -111,6 +113,10 @@ class Fireflies_FlashingModel(mesa.Model):
         """
         self.datacollector.collect(self)
         self.schedule.step()
+
+        # Saving the evolution of the number of fireflies flashing in a dataframe
+        df = self.datacollector.get_model_vars_dataframe()
+        df.to_csv(os.path.join('df.csv'))
 
 
 
